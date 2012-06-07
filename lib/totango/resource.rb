@@ -20,7 +20,16 @@ module Totango
       # opts<Hash>:: Override defaults and set conditional tracking
       def track(action, *opts)
         tracker = Totango::Tracker.new(action, *opts)
-        sp_trackers << tracker unless sp_trackers.find {|t| t.action.to_s == action.to_s}
+
+        existing_tracker = sp_trackers.detect { |t| t.action.to_s == action.to_s }
+        opts = opts.shift
+
+        if existing_tracker && (activity = opts[:activity]) && (condition = opts[:if])
+          existing_tracker.opts[:conditions] ||= {}
+          existing_tracker.opts[:conditions][activity] = condition
+        else
+          sp_trackers << tracker
+        end
       end
 
       def sp_trackers
@@ -53,9 +62,22 @@ module Totango
 
       return unless tracker
 
-      if condition = tracker.opts[:if]
-        return unless instance_eval(&condition)
+      condition = nil
+
+      if conditions = tracker.opts[:conditions]
+        conditions.values.each do |cond|
+          if instance_eval(&cond)
+            condition = cond
+            break
+          end
+        end
+
+        tracker.opts[:activity] = conditions.index(condition)
+      elsif cond = tracker.opts[:if]
+        condition = cond
       end
+
+      return if condition && !instance_eval(&condition)
 
       Totango.track({
         :o => sp_opt(tracker, :organization),

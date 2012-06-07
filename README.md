@@ -74,6 +74,14 @@ To track different actions, you must now tell Totango which actions you would li
       track :destroy, :if => proc { params[:my_boolean] } # Use conditionals to only run tracking based on the eval'd code in the Proc object
     end
 
+You can also track the same action in multiple conditions. You can use multiple calls to `track` with the same action parameter, like in the following example:
+
+    class MyController < ApplicationController
+      track :index, :activity => "Index with param_1", :if => proc { params[:param_1] }
+      track :index, :activity => "Index with param_2", :if => proc { params[:param_2] }
+      track :index, :activity => "Index with param_1 equal to 5", :if => proc { params[:param_1] == 5 }
+    end
+
 ### Rolling your own adapter
 
 There are currently adapters for rails and merb, but it is simple to write your own adapter
