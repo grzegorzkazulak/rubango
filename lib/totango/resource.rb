@@ -21,15 +21,15 @@ module Totango
       def track(action, *opts)
         tracker = Totango::Tracker.new(action, *opts)
 
-        existing_tracker = sp_trackers.detect { |t| t.action.to_s == action.to_s }
+        actual_tracker = sp_trackers.detect { |t| t.action.to_s == action.to_s } || tracker
         opts = opts.shift
 
-        if existing_tracker && (activity = opts[:activity]) && (condition = opts[:if])
-          existing_tracker.opts[:conditions] ||= {}
-          existing_tracker.opts[:conditions][activity] = condition
-        else
-          sp_trackers << tracker
+        if (activity = opts[:activity]) && (condition = opts[:if])
+          actual_tracker.opts[:conditions] ||= {}
+          actual_tracker.opts[:conditions][activity] = condition
         end
+
+        sp_trackers << tracker if actual_tracker == tracker
       end
 
       def sp_trackers
