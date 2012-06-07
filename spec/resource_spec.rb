@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'rubygems'
 
 module TestTotangoAdapter
   extend Totango::Adapters::Base
