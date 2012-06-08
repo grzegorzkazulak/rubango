@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.summary      = "API wrapper for Totango tracking integration"
   s.description  = "Enables easy integration of Totango tracking, with options for different ruby web frameworks"
   s.homepage     = "https://github.com/jonuts/rubango"
-
   s.required_rubygems_version = ">= 1.3.6"
   s.rubyforge_project         = "rubango"
 
