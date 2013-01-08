@@ -37,10 +37,11 @@ module Totango
       end
     end
 
-    parses_arg :sdr_a, :a, :act, :activity
-    parses_arg :sdr_o, :o, :org, :organization
-    parses_arg :sdr_m, :m, :mod, :module
-    parses_arg :sdr_u, :u, :user
+    parses_arg :sdr_a,    :a,   :act, :activity
+    parses_arg :sdr_o,    :o,   :org, :organization_id
+    parses_arg :sdr_odn,  :on,  :org, :organization_name
+    parses_arg :sdr_m,    :m,   :mod, :module
+    parses_arg :sdr_u,    :u,   :user
     parses_arg :sdr_ofid, :ofid, :organization_foreign_id
 
     def to_params

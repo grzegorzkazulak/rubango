@@ -3,7 +3,7 @@ module Totango
 
   module Resource
     @sp_defaults = {
-      :organization => "Default Org",
+      :organization_name => "Default Org Name",
       :user => "Default User",
       :activity => "Default Activity",
       :module => "Default Module"
@@ -80,10 +80,11 @@ module Totango
       return if condition && !instance_eval(&condition)
 
       Totango.track({
-        :o => sp_opt(tracker, :organization),
-        :a => sp_opt(tracker, :activity),
-        :m => sp_opt(tracker, :module),
-        :u => sp_opt(tracker, :user)
+        :o  => sp_opt(tracker, :organization_id),
+        :on => sp_opt(tracker, :organization_name),
+        :a  => sp_opt(tracker, :activity),
+        :m  => sp_opt(tracker, :module),
+        :u  => sp_opt(tracker, :user)
       })
     end
 
